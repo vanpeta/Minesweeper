@@ -1,0 +1,14 @@
+#board {
+  border: 2px solid red;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+#game-console {
+
+}
+.tile {
+  width: 5px;
+  height: 5px;
+}
