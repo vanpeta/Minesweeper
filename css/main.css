@@ -3,12 +3,22 @@
   width: 500px;
   margin-left: auto;
   margin-right: auto;
-
 }
 #game-console {
 
 }
 .tile {
-  width: 5px;
-  height: 5px;
+  border: 1px solid black;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
+.row {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
