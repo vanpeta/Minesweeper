@@ -1,14 +1,30 @@
 #board {
   border: 2px solid red;
   width: 500px;
-  margin-left: auto;
+  font-size: 0px;
+  line-height: 0px;
   margin-right: auto;
-
+  margin-left: auto;
 }
 #game-console {
 
 }
 .tile {
-  width: 5px;
-  height: 5px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  display: inline-block;
+  background-color: green;
+}
+.input {
+  width: 15px;
+  text-align: center;
+}
+.button {
+  display: inline;
+  margin-left: 10px;
+  border: 1px solid black;
+}
+.mine {
+  background-color: red;
 }
