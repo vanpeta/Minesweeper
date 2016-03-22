@@ -1,24 +1,41 @@
 #board {
-  border: 2px solid red;
+
   width: 500px;
-  margin-left: auto;
+  font-size: 0px;
   margin-right: auto;
+  margin-left: auto;
 }
 #game-console {
 
 }
 .tile {
+  width: 15px;
+  height: 15px;
   border: 1px solid black;
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-left: auto;
-  margin-right: auto;
+}
+.input {
+  width: 15px;
+  text-align: center;
+}
+.button {
+  display: inline;
+  margin-left: 10px;
+  border: 1px solid black;
+}
+.mine {
+  background-color: red;
+}
+.adjacent {
+  background-color: yellow;
+  font-size: 15px;
+  vertical-align: top;
+  text-align: center;
+}
+.cleared {
+  background-color: #62311D;
 
 }
-.row {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+.tile:hover {
+  border: solid red 1px;
 }
-
