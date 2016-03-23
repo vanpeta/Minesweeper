@@ -132,11 +132,11 @@ tiles.each(function(){
 
 function play (){
 $('.tile').on('click', function(){
+  var value = $(this).attr('value')
   if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
     alert ("you lost")
   }
   else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
-    var value = $(this).attr('value')
     $(this).text(''+value+'')
     $(this).addClass('cleared')
   }
@@ -151,58 +151,69 @@ $('.tile').on('click', function(){
         var rowNumber = parseInt(row.match(/\d+/)[0],10)
         var column = safeTile.attr('class')
         var colNumber = parseInt(column.match(/\d+/)[0],10)
-
-        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        var rightTile =$('#row'+rowNumber).find('.col'+(colNumber+1))
+        var leftTile =$('#row'+rowNumber).find('.col'+(colNumber-1))
+        var aboveTile=$('#row'+(rowNumber-1)).find('.col'+colNumber)
+        var aboveLeftTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber-1))
+        var aboveRightTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber+1))
+        var belowTile=$('#row'+(rowNumber+1)).find('.col'+colNumber)
+        var belowLeftTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber-1))
+        var belowRightTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber+1))
+        if (rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.marked').not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (belowTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(belowTile.not('.marked').not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (belowLeftTile.not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(belowLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+        if (belowRightTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push(belowRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
       //3. reveal all unrevealed neighbors
 
-        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).hasClass('mine')==false){
+        if (rightTile.hasClass('mine')==false){
+          rightTile.addClass('cleared')
+        }
+        if (leftTile.hasClass('mine')==false){
+          leftTile.addClass('cleared')
+        }
+        if (aboveTile.hasClass('mine')==false){
+          aboveTile.find('.col'+colNumber).addClass('cleared')
+        }
+        if (aboveLeftTile.hasClass('mine')==false){
+          aboveLeftTile.addClass('cleared')
+        }
+        if (aboveRightTile.hasClass('mine')==false){
+          aboveRightTile.find('.col'+(colNumber+1)).addClass('cleared')
+        }
+        if (belowTile.hasClass('mine')==false){
+          belowTile.find('.col'+colNumber).addClass('cleared')
+        }
+        if (belowLeftTile.hasClass('mine')==false){
+          belowLeftTile.addClass('cleared')
+        }
+        if (belowRightTile.hasClass('mine')==false){
+          belowRightTile.addClass('cleared')
+        }
+        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).hasClass('adjacent')==true){
+          value = $('#row'+rowNumber).find('.col'+(colNumber+1)).attr('value')
+          $('#row'+rowNumber).find('.col'+(colNumber+1)).text(''+value+'')
           $('#row'+rowNumber).find('.col'+(colNumber+1)).addClass('cleared')
         }
-        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).hasClass('mine')==false){
-          $($('#row'+rowNumber).find('.col'+(colNumber-1))).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).hasClass('mine')==false){
-          $('#row'+(rowNumber-1)).find('.col'+colNumber).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).hasClass('mine')==false){
-          $('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).hasClass('mine')==false){
-          $('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).hasClass('mine')==false){
-          $('#row'+(rowNumber+1)).find('.col'+colNumber).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).hasClass('mine')==false){
-          $('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).addClass('cleared')
-        }
-        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).hasClass('mine')==false){
-          $('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).addClass('cleared')
-        }
-
     }
   }
 })
