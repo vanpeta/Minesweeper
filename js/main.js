@@ -1,8 +1,10 @@
 
-var board = $('#board')
+var board=$('#board')
 var rows=$('#row-button').val()
 var columns=$('#column-button').val()
-var level = false
+var level=false
+var minesCounter=0
+var allMarked=false
 /// Setup Panel
 $('.button').on('click', function () {
   var button = $(this)
@@ -31,7 +33,6 @@ function boardGenerator(rows,columns){
     }
   }
 /// Mines Insertion
-  var numberOfMines = false
   if (level == 'easy'){
     var tenPercent = Math.round(((rows*columns)*10)/100)
     numberOfMines = tenPercent
@@ -44,7 +45,6 @@ function boardGenerator(rows,columns){
     var fiftyPercent = Math.round(((rows*columns)*50)/100)
     numberOfMines = fiftyPercent
   }
-  console.log (numberOfMines)
   var i = 0
   while (i <numberOfMines){
     var randomRow=Math.floor(Math.random()*rows)
@@ -113,11 +113,15 @@ function boardGenerator(rows,columns){
     if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).hasClass('mine')==true){
       n++
     }
-  $(this).html(n)
+  $(this).attr('value',''+n+'')
   })
   play()
-  markMine()
+
+  minesCounter=$('.mine').length
+  $('#mines-counter').html(minesCounter)
 }
+
+
 //click on tiles
 var tiles = $('.tile');
 tiles.each(function(){
@@ -128,46 +132,49 @@ tiles.each(function(){
 
 function play (){
 $('.tile').on('click', function(){
-  if ($(this).hasClass('mine')==true){
+  if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
     alert ("you lost")
   }
-  else if ($(this).hasClass('adjacent')==true){
+  else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
+    var value = $(this).attr('value')
+    $(this).text(''+value+'')
     $(this).addClass('cleared')
   }
-  else {
+  else if (!$(this).hasClass('marked')){
+    $(this).addClass('cleared')
     var safeTiles=[$(this)]
     while (safeTiles.length>0){
       //1. remove $(this)
       var safeTile = safeTiles.pop()
-      //2. add all white unrevealed neighbors to safeTiles
+      //2. add all unrevealed neighbors to safeTiles
         var row = safeTile.parent().attr('id')
         var rowNumber = parseInt(row.match(/\d+/)[0],10)
         var column = safeTile.attr('class')
         var colNumber = parseInt(column.match(/\d+/)[0],10)
 
-        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.marked').not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
         if ($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
       //3. reveal all unrevealed neighbors
 
@@ -195,24 +202,64 @@ $('.tile').on('click', function(){
         if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).hasClass('mine')==false){
           $('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).addClass('cleared')
         }
+
     }
   }
 })
+  $(this).unbind()
+  markingMines()
 }
-function markMine (){
-  $('.tile').hover(function(){
-  $(this).addClass('active')
-  console.log ("active")
-},function () {
-  $(this).removeClass('active')
-  console.log ('remove')
-})
-  $('.active').keypress(function (e){
-    if (e.which===32){
-      console.log('space pressed')
-      $('.active').addClass('marked')
-      $('.active').html('M')
+
+function markingMines(){
+/// activating the tile the mouse is on
+$('.tile').hover(function(){
+    if ($(this).hasClass('cleared')==false){
+      $(this).addClass('active')
     }
+  },function () {
+  $(this).removeClass('active')
+})
+///mark tile as a mine when pressing space bar and hover on an ('.active') tile
+  $(document).keyup(function(e){
+    // check keycode
+    if (e.keyCode===32){
+        $('.tile').each(function(index, el){
+            if ($(el).hasClass('active') && $(el).hasClass('marked')){
+              $('.active').removeClass('marked')
+              $('.active').empty()
+            }
+            else if($(el).hasClass('active')){
+              $('.active').addClass('marked')
+              $('.active').html('M')
+            }
+      })
+    }
+    mineCounter()
+    winLogic()
   })
 }
+
+function mineCounter(){
+  minesCounter=(($('.mine').length)-($('.marked').length))
+  $('#mines-counter').text(minesCounter)
+}
+//// win logic
+///if player marks all the mine tiles, wins!!!
+function winLogic(){
+  allMarked=true
+  $('.mine').each(function(index,el){
+    if (!$(el).hasClass('marked')){
+      allMarked=false
+    }
+  })
+  if (allMarked==true){
+  alert("you win")
+  }
+}
+
+
+
+
+
+
 

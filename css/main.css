@@ -14,6 +14,11 @@
   height: 15px;
   display: inline-block;
   border: 1px solid black;
+  font-size: 15px;
+  vertical-align: top;
+  text-align: center;
+  color: white;
+  background-color: green;
 }
 .input {
   width: 15px;
@@ -26,9 +31,10 @@
 }
 .mine {
   background-color: red;
+  color: black;
 }
 .adjacent {
-  background-color: yellow;
+  background-color: orange;
   font-size: 15px;
   vertical-align: top;
   text-align: center;
