@@ -20,6 +20,7 @@ $('#submit').on('click', function() {
   columns=$('#column-button').val()
   level = $('#level-button').val()
   boardGenerator(rows,columns)
+  $(this).unbind()
 })
 /// Board Creation
 function boardGenerator(rows,columns){
@@ -114,6 +115,8 @@ function boardGenerator(rows,columns){
     }
   $(this).html(n)
   })
+  play()
+  markMine()
 }
 //click on tiles
 var tiles = $('.tile');
@@ -123,19 +126,93 @@ tiles.each(function(){
   })
 })
 
+function play (){
 $('.tile').on('click', function(){
-  alert("test")
   if ($(this).hasClass('mine')==true){
     alert ("you lost")
   }
-  if ($(this).hasClass('adjacent')==true){
-    console.log('click on adjacent')
+  else if ($(this).hasClass('adjacent')==true){
     $(this).addClass('cleared')
   }
-  if (($(this).hasClass('adjacent')==false)||($(this).hasClass('mine')==false)){
-    $(this).addClass('cleared')
+  else {
+    var safeTiles=[$(this)]
+    while (safeTiles.length>0){
+      //1. remove $(this)
+      var safeTile = safeTiles.pop()
+      //2. add all white unrevealed neighbors to safeTiles
+        var row = safeTile.parent().attr('id')
+        var rowNumber = parseInt(row.match(/\d+/)[0],10)
+        var column = safeTile.attr('class')
+        var colNumber = parseInt(column.match(/\d+/)[0],10)
+
+        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+rowNumber).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+colNumber).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared').length > 0) {
+          safeTiles.push($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).not('.mine').not('.adjacent').not('.cleared'))
+        }
+      //3. reveal all unrevealed neighbors
+
+        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).hasClass('mine')==false){
+          $('#row'+rowNumber).find('.col'+(colNumber+1)).addClass('cleared')
+        }
+        if ($('#row'+rowNumber).find('.col'+(colNumber-1)).hasClass('mine')==false){
+          $($('#row'+rowNumber).find('.col'+(colNumber-1))).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+colNumber).hasClass('mine')==false){
+          $('#row'+(rowNumber-1)).find('.col'+colNumber).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).hasClass('mine')==false){
+          $('#row'+(rowNumber-1)).find('.col'+(colNumber-1)).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).hasClass('mine')==false){
+          $('#row'+(rowNumber-1)).find('.col'+(colNumber+1)).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+colNumber).hasClass('mine')==false){
+          $('#row'+(rowNumber+1)).find('.col'+colNumber).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).hasClass('mine')==false){
+          $('#row'+(rowNumber+1)).find('.col'+(colNumber-1)).addClass('cleared')
+        }
+        if ($('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).hasClass('mine')==false){
+          $('#row'+(rowNumber+1)).find('.col'+(colNumber+1)).addClass('cleared')
+        }
+    }
   }
 })
-
-
+}
+function markMine (){
+  $('.tile').hover(function(){
+  $(this).addClass('active')
+  console.log ("active")
+},function () {
+  $(this).removeClass('active')
+  console.log ('remove')
+})
+  $('.active').keypress(function (e){
+    if (e.which===32){
+      console.log('space pressed')
+      $('.active').addClass('marked')
+      $('.active').html('M')
+    }
+  })
+}
 

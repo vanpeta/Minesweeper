@@ -1,5 +1,6 @@
 #board {
 
+  border: 2px solid red;
   width: 500px;
   font-size: 0px;
   margin-right: auto;
@@ -11,8 +12,8 @@
 .tile {
   width: 15px;
   height: 15px;
-  border: 1px solid black;
   display: inline-block;
+  border: 1px solid black;
 }
 .input {
   width: 15px;
@@ -31,9 +32,10 @@
   font-size: 15px;
   vertical-align: top;
   text-align: center;
+  color: white;
 }
 .cleared {
-  background-color: #62311D;
+  background-color: #844200;
 
 }
 .tile:hover {
