@@ -134,7 +134,7 @@ function play (){
 $('.tile').on('click', function(){
   var value = $(this).attr('value')
   if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
-    alert ("you lost")
+    $(this).append('<img src="http://rs651.pbsrc.com/albums/uu236/416o/explosion.gif~c200" width="30px">')
   }
   else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
     $(this).text(''+value+'')
@@ -183,7 +183,7 @@ $('.tile').on('click', function(){
         if (belowRightTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
           safeTiles.push(belowRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
         }
-      //3. reveal all unrevealed neighbors
+      //3. revealing all unrevealed neighbors
 
         if (rightTile.hasClass('mine')==false){
           rightTile.addClass('cleared')
@@ -192,16 +192,16 @@ $('.tile').on('click', function(){
           leftTile.addClass('cleared')
         }
         if (aboveTile.hasClass('mine')==false){
-          aboveTile.find('.col'+colNumber).addClass('cleared')
+          aboveTile.addClass('cleared')
         }
         if (aboveLeftTile.hasClass('mine')==false){
           aboveLeftTile.addClass('cleared')
         }
         if (aboveRightTile.hasClass('mine')==false){
-          aboveRightTile.find('.col'+(colNumber+1)).addClass('cleared')
+          aboveRightTile.addClass('cleared')
         }
         if (belowTile.hasClass('mine')==false){
-          belowTile.find('.col'+colNumber).addClass('cleared')
+          belowTile.addClass('cleared')
         }
         if (belowLeftTile.hasClass('mine')==false){
           belowLeftTile.addClass('cleared')
@@ -209,10 +209,39 @@ $('.tile').on('click', function(){
         if (belowRightTile.hasClass('mine')==false){
           belowRightTile.addClass('cleared')
         }
-        if ($('#row'+rowNumber).find('.col'+(colNumber+1)).hasClass('adjacent')==true){
-          value = $('#row'+rowNumber).find('.col'+(colNumber+1)).attr('value')
-          $('#row'+rowNumber).find('.col'+(colNumber+1)).text(''+value+'')
-          $('#row'+rowNumber).find('.col'+(colNumber+1)).addClass('cleared')
+      //4. revealing the number in adjacent tiles
+
+        if (rightTile.hasClass('adjacent')==true){
+          value = rightTile.attr('value')
+          rightTile.text(''+value+'')
+        }
+        if (leftTile.hasClass('adjacent')==true){
+          value = leftTile.attr('value')
+          leftTile.text(''+value+'')
+        }
+        if (aboveTile.hasClass('adjacent')==true){
+          value = aboveTile.attr('value')
+          aboveTile.text(''+value+'')
+        }
+        if (aboveLeftTile.hasClass('adjacent')==true){
+          value = aboveLeftTile.attr('value')
+          aboveLeftTile.text(''+value+'')
+        }
+        if (aboveRightTile.hasClass('adjacent')==true){
+          value = aboveRightTile.attr('value')
+          aboveRightTile.text(''+value+'')
+        }
+        if (belowTile.hasClass('adjacent')==true){
+          value = belowTile.attr('value')
+          belowTile.text(''+value+'')
+        }
+        if (belowLeftTile.hasClass('adjacent')==true){
+          value = belowLeftTile.attr('value')
+          belowLeftTile.text(''+value+'')
+        }
+        if (belowRightTile.hasClass('adjacent')==true){
+          value = belowRightTile.attr('value')
+          belowRightTile.text(''+value+'')
         }
     }
   }
@@ -230,7 +259,7 @@ $('.tile').hover(function(){
   },function () {
   $(this).removeClass('active')
 })
-///mark tile as a mine when pressing space bar and hover on an ('.active') tile
+///marking tile as a mine when pressing space bar and hover on an ('.active') tile
   $(document).keyup(function(e){
     // check keycode
     if (e.keyCode===32){
@@ -249,7 +278,7 @@ $('.tile').hover(function(){
     winLogic()
   })
 }
-
+/// adding a counter that features how many mines are hidden at anytime.
 function mineCounter(){
   minesCounter=(($('.mine').length)-($('.marked').length))
   $('#mines-counter').text(minesCounter)

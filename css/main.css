@@ -1,24 +1,32 @@
 #board {
 
-  border: 2px solid red;
+  border: 2px solid white;
   width: 500px;
   font-size: 0px;
   margin-right: auto;
   margin-left: auto;
+  transform: rotateX(46deg);
 }
 #game-console {
-
+  background-image: url('../images/background.png');
+    perspective: 1000px;
+}
+#mines-counter{
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  color: red;
+  background-color: black;
+  float: left;
 }
 .tile {
   width: 15px;
   height: 15px;
   display: inline-block;
-  border: 1px solid black;
+  border: 3px solid transparent;
   font-size: 15px;
   vertical-align: top;
   text-align: center;
   color: white;
-  background-color: green;
 }
 .input {
   width: 15px;
@@ -30,11 +38,9 @@
   border: 1px solid black;
 }
 .mine {
-  background-color: red;
   color: black;
 }
 .adjacent {
-  background-color: orange;
   font-size: 15px;
   vertical-align: top;
   text-align: center;
@@ -45,5 +51,5 @@
 
 }
 .tile:hover {
-  border: solid red 1px;
+  border: solid red 3px;
 }
