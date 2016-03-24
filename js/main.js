@@ -10,7 +10,7 @@ var game=true
 $('.button').on('click', function () {
   var button = $(this)
   var oldValue = button.parent().find('input').val()
-  if (button.text()=="+") {
+  if(button.text()=="+"){
     var newValue=parseFloat(oldValue)+1
   }
   else if (button.text()=="-"){
@@ -137,151 +137,153 @@ tiles.each(function(){
 })
 
 function play (){
-  if (game==true){
-$('.tile').on('click', function(){
-  var value = $(this).attr('value')
-  if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
-    $(this).append('<img src="http://rs651.pbsrc.com/albums/uu236/416o/explosion.gif~c200" width="50px" style="position:relative; top:-28px; left:-16px;">')
-    alert("you lose")
-    game=false
-  }
-  else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
-    $(this).text(''+value+'')
-    $(this).addClass('cleared')
-  }
-  else if (!$(this).hasClass('marked')){
-    $(this).addClass('cleared')
-    var safeTiles=[$(this)]
-    while (safeTiles.length>0){
-      //1. remove $(this)
-      var safeTile = safeTiles.pop()
-      //2. add all unrevealed neighbors to safeTiles
-        var row = safeTile.parent().attr('id')
-        var rowNumber = parseInt(row.match(/\d+/)[0],10)
-        var column = safeTile.attr('class')
-        var colNumber = parseInt(column.match(/\d+/)[0],10)
-        var rightTile =$('#row'+rowNumber).find('.col'+(colNumber+1))
-        var leftTile =$('#row'+rowNumber).find('.col'+(colNumber-1))
-        var aboveTile=$('#row'+(rowNumber-1)).find('.col'+colNumber)
-        var aboveLeftTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber-1))
-        var aboveRightTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber+1))
-        var belowTile=$('#row'+(rowNumber+1)).find('.col'+colNumber)
-        var belowLeftTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber-1))
-        var belowRightTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber+1))
-        if (rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+  $('.tile').on('click', function(){
+    if (game==true){
+      var value = $(this).attr('value')
+      if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
+        $(this).append('<img src="http://rs651.pbsrc.com/albums/uu236/416o/explosion.gif~c200" width="50px" style="position:relative; top:-28px; left:-16px;">')
+        game=false
+        setTimeout (function (){
+          $('#game-console').hide()
+          $('#gameover').show()
+        },3000);
+      }
+      else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
+        $(this).text(''+value+'')
+        $(this).addClass('cleared')
+      }
+      else if (!$(this).hasClass('marked')){
+        $(this).addClass('cleared')
+        var safeTiles=[$(this)]
+        while (safeTiles.length>0){
+        //1. remove $(this)
+          var safeTile = safeTiles.pop()
+        //2. add all unrevealed neighbors to safeTiles
+          var row = safeTile.parent().attr('id')
+          var rowNumber = parseInt(row.match(/\d+/)[0],10)
+          var column = safeTile.attr('class')
+          var colNumber = parseInt(column.match(/\d+/)[0],10)
+          var rightTile =$('#row'+rowNumber).find('.col'+(colNumber+1))
+          var leftTile =$('#row'+rowNumber).find('.col'+(colNumber-1))
+          var aboveTile=$('#row'+(rowNumber-1)).find('.col'+colNumber)
+          var aboveLeftTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber-1))
+          var aboveRightTile=$('#row'+(rowNumber-1)).find('.col'+(colNumber+1))
+          var belowTile=$('#row'+(rowNumber+1)).find('.col'+colNumber)
+          var belowLeftTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber-1))
+          var belowRightTile=$('#row'+(rowNumber+1)).find('.col'+(colNumber+1))
+          if (rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(rightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (belowTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(belowTile.not('.marked').not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (belowLeftTile.not('.mine').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(belowLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          if (belowRightTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
+            safeTiles.push(belowRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
+          }
+          //3. revealing all unrevealed neighbors
+          if (rightTile.hasClass('mine')==false){
+           rightTile.addClass('cleared')
+          }
+          if (leftTile.hasClass('mine')==false){
+            leftTile.addClass('cleared')
+          }
+          if (aboveTile.hasClass('mine')==false){
+            aboveTile.addClass('cleared')
+          }
+          if (aboveLeftTile.hasClass('mine')==false){
+            aboveLeftTile.addClass('cleared')
+          }
+          if (aboveRightTile.hasClass('mine')==false){
+            aboveRightTile.addClass('cleared')
+          }
+          if (belowTile.hasClass('mine')==false){
+            belowTile.addClass('cleared')
+          }
+          if (belowLeftTile.hasClass('mine')==false){
+            belowLeftTile.addClass('cleared')
+          }
+          if (belowRightTile.hasClass('mine')==false){
+            belowRightTile.addClass('cleared')
+          }
+          //4. revealing the number in adjacent tiles
+          if (rightTile.hasClass('adjacent')==true){
+            value = rightTile.attr('value')
+            rightTile.text(''+value+'')
+          }
+          if (leftTile.hasClass('adjacent')==true){
+            value = leftTile.attr('value')
+            leftTile.text(''+value+'')
+          }
+          if (aboveTile.hasClass('adjacent')==true){
+            value = aboveTile.attr('value')
+            aboveTile.text(''+value+'')
+          }
+          if (aboveLeftTile.hasClass('adjacent')==true){
+            value = aboveLeftTile.attr('value')
+            aboveLeftTile.text(''+value+'')
+          }
+          if (aboveRightTile.hasClass('adjacent')==true){
+            value = aboveRightTile.attr('value')
+            aboveRightTile.text(''+value+'')
+          }
+          if (belowTile.hasClass('adjacent')==true){
+            value = belowTile.attr('value')
+            belowTile.text(''+value+'')
+          }
+          if (belowLeftTile.hasClass('adjacent')==true){
+            value = belowLeftTile.attr('value')
+            belowLeftTile.text(''+value+'')
+          }
+          if (belowRightTile.hasClass('adjacent')==true){
+            value = belowRightTile.attr('value')
+            belowRightTile.text(''+value+'')
+          }
         }
-        if (leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(leftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(aboveTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(aboveLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(aboveRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (belowTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(belowTile.not('.marked').not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (belowLeftTile.not('.mine').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(belowLeftTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-        if (belowRightTile.not('.mine').not('.marked').not('.adjacent').not('.cleared').length > 0) {
-          safeTiles.push(belowRightTile.not('.marked').not('.mine').not('.adjacent').not('.cleared'))
-        }
-      //3. revealing all unrevealed neighbors
-
-        if (rightTile.hasClass('mine')==false){
-          rightTile.addClass('cleared')
-        }
-        if (leftTile.hasClass('mine')==false){
-          leftTile.addClass('cleared')
-        }
-        if (aboveTile.hasClass('mine')==false){
-          aboveTile.addClass('cleared')
-        }
-        if (aboveLeftTile.hasClass('mine')==false){
-          aboveLeftTile.addClass('cleared')
-        }
-        if (aboveRightTile.hasClass('mine')==false){
-          aboveRightTile.addClass('cleared')
-        }
-        if (belowTile.hasClass('mine')==false){
-          belowTile.addClass('cleared')
-        }
-        if (belowLeftTile.hasClass('mine')==false){
-          belowLeftTile.addClass('cleared')
-        }
-        if (belowRightTile.hasClass('mine')==false){
-          belowRightTile.addClass('cleared')
-        }
-      //4. revealing the number in adjacent tiles
-
-        if (rightTile.hasClass('adjacent')==true){
-          value = rightTile.attr('value')
-          rightTile.text(''+value+'')
-        }
-        if (leftTile.hasClass('adjacent')==true){
-          value = leftTile.attr('value')
-          leftTile.text(''+value+'')
-        }
-        if (aboveTile.hasClass('adjacent')==true){
-          value = aboveTile.attr('value')
-          aboveTile.text(''+value+'')
-        }
-        if (aboveLeftTile.hasClass('adjacent')==true){
-          value = aboveLeftTile.attr('value')
-          aboveLeftTile.text(''+value+'')
-        }
-        if (aboveRightTile.hasClass('adjacent')==true){
-          value = aboveRightTile.attr('value')
-          aboveRightTile.text(''+value+'')
-        }
-        if (belowTile.hasClass('adjacent')==true){
-          value = belowTile.attr('value')
-          belowTile.text(''+value+'')
-        }
-        if (belowLeftTile.hasClass('adjacent')==true){
-          value = belowLeftTile.attr('value')
-          belowLeftTile.text(''+value+'')
-        }
-        if (belowRightTile.hasClass('adjacent')==true){
-          value = belowRightTile.attr('value')
-          belowRightTile.text(''+value+'')
-        }
+      }
     }
-  }
-})
+  })
   $(this).unbind()
   markingMines()
-}
 }
 
 function markingMines(){
 /// activating the tile the mouse is on
-$('.tile').hover(function(){
-    if ($(this).hasClass('cleared')==false){
-      $(this).addClass('active')
-    }
-  },function () {
-  $(this).removeClass('active')
-})
+  $('.tile').hover(function(){
+    if (game==true){
+      if ($(this).hasClass('cleared')==false){
+        $(this).addClass('active')
+      }
+    }} ,function () {
+      $(this).removeClass('active')
+  })
 ///marking tile as a mine when pressing space bar and hover on an ('.active') tile
   $(document).keyup(function(e){
     // check keycode
     if (e.keyCode===32){
-        $('.tile').each(function(index, el){
-            if ($(el).hasClass('active') && $(el).hasClass('marked')){
-              $('.active').removeClass('marked')
-              $('.active').empty()
-            }
-            else if($(el).hasClass('active')){
-              $('.active').addClass('marked')
-              $('.active').html('M')
-            }
+      $('.tile').each(function(index, el){
+        if ($(el).hasClass('active') && $(el).hasClass('marked')){
+          $('.active').removeClass('marked')
+          $('.active').empty()
+        }
+        else if($(el).hasClass('active')){
+          $('.active').addClass('marked')
+          $('.active').append('<img src="http://www.clipartbest.com/cliparts/MiL/a8q/MiLa8qyia.png" width="25" style="position:relative; top:-10px;left:1px">')
+        }
       })
     }
     mineCounter()
@@ -303,12 +305,11 @@ function winLogic(){
     }
   })
   if (allMarked==true){
-  alert("you win")
-  game=false
+    $('#game-console').hide()
+    $('#winner').show()
+    game=false
   }
 }
-
-
 
 
 

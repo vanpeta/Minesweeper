@@ -18,10 +18,10 @@ h1{
 }
 #board {
   border: 2px solid white;
-  width: 400px;
+  width: 600px;
   font-size: 0px;
-  margin-right: 200px;
-  margin-left: 200px;
+  margin-right: 100px;
+  margin-left: 100px;
   transform: rotateX(50deg);
   display: flex;
   flex-direction: column;
@@ -90,4 +90,16 @@ h1{
 }
 .tile:hover {
   border: solid red 3px;
+}
+#restart{
+  display: block;
+}
+#winner{
+  width: 250px;
+  margin-right: auto;
+  margin-left: auto;
+  display: none;
+}
+#gameover{
+  display: none;
 }
