@@ -6,13 +6,12 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href='https://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
   <div id='setup-panel'>
-    <div>
-      <label>Name</label>
-      <input id='name'></input>
-    </div>
+    <div id='options'>
+      <h1>MINESWEEPER</h1>
     <div>
       <label>Columns</label>
       <input id='column-button' class='input' value='15'></input>
@@ -33,8 +32,11 @@
     </div>
     <button id='submit'>Start</button>
   </div>
+  </div>
   <div id='game-console'>
+    <div id='mines-left-label'>Mines Left: </div>
     <div id='mines-counter'> </div>
+    <button id="restart">RESTART</button>
     <div id='board'></div>
   </div>
   <script src="js/main.js"></script>

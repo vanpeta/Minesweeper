@@ -1,22 +1,61 @@
-#board {
-
-  border: 2px solid white;
-  width: 500px;
-  font-size: 0px;
+body{
+  width: 800px;
   margin-right: auto;
   margin-left: auto;
-  transform: rotateX(46deg);
+}
+#setup-panel{
+  background-image: url('../images/sup-background.png');
+  height: 270px;
+}
+h1{
+  margin-bottom: 10px;
+}
+#options{
+  padding-top: 30px;
+  text-align: center;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 800;
+}
+#board {
+  border: 2px solid white;
+  width: 400px;
+  font-size: 0px;
+  margin-right: 200px;
+  margin-left: 200px;
+  transform: rotateX(50deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#mines-counter{
+  width: 40px;
 }
 #game-console {
-  background-image: url('../images/background.png');
-    perspective: 1000px;
+  display: none;
+  background-image: url('../images/background2.png');
+  perspective: 1237px;
 }
 #mines-counter{
   font-family: 'Orbitron', sans-serif;
-  font-size: 30px;
+  font-size: 25px;
   color: red;
   background-color: black;
   float: left;
+  padding: 5px;
+  margin-top: 5px;
+
+}
+#mines-left-label{
+  font-family: 'Orbitron', sans-serif;
+  font-size: 25px;
+  color: red;
+  background-color: black;
+  float: left;
+  padding: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+
 }
 .tile {
   width: 15px;
@@ -35,10 +74,9 @@
 .button {
   display: inline;
   margin-left: 10px;
-  border: 1px solid black;
 }
 .mine {
-  color: black;
+  color: white;
 }
 .adjacent {
   font-size: 15px;

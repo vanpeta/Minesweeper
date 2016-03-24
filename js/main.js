@@ -5,6 +5,7 @@ var columns=$('#column-button').val()
 var level=false
 var minesCounter=0
 var allMarked=false
+var game=true
 /// Setup Panel
 $('.button').on('click', function () {
   var button = $(this)
@@ -22,6 +23,8 @@ $('#submit').on('click', function() {
   columns=$('#column-button').val()
   level = $('#level-button').val()
   boardGenerator(rows,columns)
+  $('#game-console').show()
+  $('#setup-panel').hide()
   $(this).unbind()
 })
 /// Board Creation
@@ -119,6 +122,9 @@ function boardGenerator(rows,columns){
 
   minesCounter=$('.mine').length
   $('#mines-counter').html(minesCounter)
+  $('#restart').click(function() {
+    location.reload();
+});
 }
 
 
@@ -131,10 +137,13 @@ tiles.each(function(){
 })
 
 function play (){
+  if (game==true){
 $('.tile').on('click', function(){
   var value = $(this).attr('value')
   if ($(this).hasClass('mine')==true&&(!$(this).hasClass('marked'))){
-    $(this).append('<img src="http://rs651.pbsrc.com/albums/uu236/416o/explosion.gif~c200" width="30px">')
+    $(this).append('<img src="http://rs651.pbsrc.com/albums/uu236/416o/explosion.gif~c200" width="50px" style="position:relative; top:-28px; left:-16px;">')
+    alert("you lose")
+    game=false
   }
   else if ($(this).hasClass('adjacent')==true&&(!$(this).hasClass('marked'))){
     $(this).text(''+value+'')
@@ -249,6 +258,7 @@ $('.tile').on('click', function(){
   $(this).unbind()
   markingMines()
 }
+}
 
 function markingMines(){
 /// activating the tile the mouse is on
@@ -294,6 +304,7 @@ function winLogic(){
   })
   if (allMarked==true){
   alert("you win")
+  game=false
   }
 }
 
