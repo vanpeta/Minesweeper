@@ -145,6 +145,7 @@ function play (){
         game=false
         setTimeout (function (){
           $('#game-console').hide()
+          $('span').hide()
           $('#gameover').show()
         },3000);
       }
@@ -306,6 +307,7 @@ function winLogic(){
   })
   if (allMarked==true){
     $('#game-console').hide()
+    $('span').hide()
     $('#winner').show()
     game=false
   }

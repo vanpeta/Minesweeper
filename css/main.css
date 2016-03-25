@@ -94,6 +94,11 @@ h1{
 #restart{
   display: block;
 }
+span{
+  font-size: 11px;
+  float: right;
+  margin-top: -16px;
+}
 #winner{
   width: 250px;
   margin-right: auto;
